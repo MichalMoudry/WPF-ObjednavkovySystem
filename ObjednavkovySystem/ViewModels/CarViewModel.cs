@@ -1,20 +1,25 @@
-﻿using System;
+﻿using ObjednavkovySystem.Models;
+using ObjednavkovySystem.Models.Database;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using ObjednavkovySystem.Models;
-using RestSharp;
-using ObjednavkovySystem.Helpers;
-using Newtonsoft.Json;
+using System.Linq;
 
 namespace ObjednavkovySystem.ViewModels
 {
-    class CarViewModel
+    internal class CarViewModel
     {
-        private List<Car> _cars;
-
         private static CarViewModel _instance;
+        private ObservableCollection<Car> _observableCollCars;
+        private List<Car> _cars;
+        private CarDatabase carDatabase;
+
+        protected CarViewModel()
+        {
+            carDatabase = new CarDatabase("CarDatabase.db3");
+        }
+
         public static CarViewModel Instance()
         {
             if (_instance == null)
@@ -24,76 +29,57 @@ namespace ObjednavkovySystem.ViewModels
             return _instance;
         }
 
-        protected CarViewModel()
+        public async Task DeleteCar(Car car, bool toSyncContext = true)
         {
-
-        }
-
-        public async Task<List<Car>> GetCars()
-        {
-            RestRequest request = new RestRequest("/Cars", Method.GET);
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
+            car.IsDeleted = 1;
+            await carDatabase.UpdateEntity(car);
+            if (toSyncContext)
             {
-                _cars = await JsonParserer.ParseStringAsync<List<Car>>(response.Content);
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = car.ID, EntityType = "Car", Operation = "Delete", Added = DateTime.Now, LastUpdated = DateTime.Now });
             }
-            return _cars;
-        }
-
-        public async Task<List<Car>> GetCar(int id)
-        {
-            RestRequest request = new RestRequest($"/Cars/{id}", Method.GET);
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
+            if (_observableCollCars != null)
             {
-                return await JsonParserer.ParseStringAsync<List<Car>>(response.Content);
-            }
-            else
-            {
-                return null;
+                _observableCollCars.Remove(car);
             }
         }
 
-        public async Task<bool> AddCar(Car car)
+        public async Task<Car> GetCarByID(int id)
         {
-            await Task.Delay(10);
-            bool res = false;
-            RestRequest request = new RestRequest(Method.POST);
-            request.AddParameter("Car", $"{JsonConvert.SerializeObject(car)}");
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
-            {
-                res = true;
-            }
-            return res;
+            return await carDatabase.GetEntityByID(id);
         }
 
-        public async Task<bool> DeleteCar(Car car)
+        public async Task<List<Car>> GetCarsAsList()
         {
-            await Task.Delay(10);
-            bool res = false;
-            RestRequest request = new RestRequest(Method.POST);
-            request.AddParameter("CarDelete", $"{JsonConvert.SerializeObject(car)}");
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
-            {
-                res = true;
-            }
-            return res;
+            _cars = await carDatabase.GetEntitesAsList();
+            return _cars.Where(i => i.IsDeleted == 0).ToList();
         }
 
-        public async Task<bool> UpdateCar(Car car)
+        public async Task<ObservableCollection<Car>> GetCarsAsObservable()
         {
-            await Task.Delay(10);
-            bool res = false;
-            RestRequest request = new RestRequest(Method.POST);
-            request.AddParameter("CarUpdate", $"{JsonConvert.SerializeObject(car)}");
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
+            _observableCollCars = new ObservableCollection<Car>(await GetCarsAsList());
+            return _observableCollCars;
+        }
+
+        public async Task InsertCar(Car car, bool toSyncContext = true)
+        {
+            await carDatabase.SaveEntity(car);
+            if (toSyncContext)
             {
-                res = true;
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = car.ID, EntityType = "Car", Operation = "Create", Added = DateTime.Now, LastUpdated = DateTime.Now });
             }
-            return res;
+            if (_observableCollCars != null)
+            {
+                _observableCollCars.Add(car);
+            }
+        }
+
+        public async Task UpdateCar(Car car, bool toSyncContext = true)
+        {
+            await carDatabase.UpdateEntity(car);
+            if (toSyncContext)
+            {
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = car.ID, EntityType = "Car", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });
+            }
         }
     }
 }

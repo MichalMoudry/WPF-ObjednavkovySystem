@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ObjednavkovySystem.ViewModels.CarViewModel">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgAEQEAAgQAAAEAAAAAAAAAAAAAAAAAAQEAAAAAEAAA=</HashCode>
+      <FileName>ViewModels\CarViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.ViewModels.CustomerViewModel">
+    <Position X="3.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQCEAAAAAAAAAAAABACAAAAQAAAIAAEAQAAEAAAAAAA=</HashCode>
+      <FileName>ViewModels\CustomerViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.ViewModels.EmployeeViewModel">
+    <Position X="6.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAFAAAAAEIAAAAIAAAEIAAAAAAAAIAIQAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\EmployeeViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.ViewModels.OrderViewModel">
+    <Position X="9.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gQAEAAEAAAAAAAACAAAAAAAAACAEAAAAQUAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\OrderViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.ViewModels.SyncContextViewModel">
+    <Position X="12" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAEBAAAAAAAAAAAAAAAAAAAAAAQAAQAQQAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\SyncContextViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ObjednavkovySystem.Models.Database.CarDatabase">
+    <Position X="12.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EgAAAAAAgAAAAABAAAAEAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\CarDatabase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.Database.CustomerDatabase">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EgAAAAAAgAAAAABAAAAEAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\CustomerDatabase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.Database.EmployeeDatabase">
+    <Position X="12.5" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EgAAAAAAgAAAAABAAAAEAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\EmployeeDatabase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.Database.OrderDatabase">
+    <Position X="10.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EgAAAAAAgAAAAABAAAAEAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\OrderDatabase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.Database.SyncDatabase">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EgAAAAAAAAAAAABAAAAEAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Models\Database\SyncDatabase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.Extensions.Entity">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAEEAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Models\Extensions\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.Extensions.Person">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Extensions\Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.Car">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Car.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.Customer">
+    <Position X="6.5" Y="2.25" Width="1.5" />
+    <InheritanceLine Type="ObjednavkovySystem.Models.Extensions.Person" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="4.5" Y="1.125" />
+        <Point X="5.792" Y="1.125" />
+        <Point X="5.792" Y="2.749" />
+        <Point X="6.5" Y="2.749" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Customer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.Employee">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.Order">
+    <Position X="2.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICACAAAAAAAAAAAAAAAAgAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjednavkovySystem.Models.SyncContext">
+    <Position X="4.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\SyncContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

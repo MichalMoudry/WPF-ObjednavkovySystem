@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using System.Collections.Generic;
 
 namespace ObjednavkovySystem.Helpers
 {
@@ -18,6 +19,16 @@ namespace ObjednavkovySystem.Helpers
                 _instance = new RESTHelper();
             }
             return _instance;
+        }
+
+        public List<string> GetResources()
+        {
+            return new List<string>() { "/Employees", "/Cars", "/Users", "/JoinTableEntries" };
+        }
+
+        public List<string> GetParametersForCreate()
+        {
+            return new List<string>() { "User", "Car", "Transaction", "Employee" };
         }
     }
 }

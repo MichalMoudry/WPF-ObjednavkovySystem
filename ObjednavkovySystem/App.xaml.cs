@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
+﻿using ObjednavkovySystem.Services;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -13,5 +9,13 @@ namespace ObjednavkovySystem
     /// </summary>
     public partial class App : Application
     {
+        protected async override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            await Task.Run(async () =>
+            {
+                await SyncService.Instance().SyncAsync();
+            });
+        }
     }
 }

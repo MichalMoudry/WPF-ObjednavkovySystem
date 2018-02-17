@@ -1,27 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MahApps.Metro.Controls;
+using ObjednavkovySystem.Services;
+using ObjednavkovySystem.Views.Pages;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ObjednavkovySystem.Views.Windows
 {
     /// <summary>
     /// Interakční logika pro MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {
             InitializeComponent();
+            mainFrame.Navigate(new LoginPage());
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            mainFrame.Navigate(new LoginPage());
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            mainFrame.Refresh();
+        }
+
+        private async void SyncButton_Click(object sender, RoutedEventArgs e)
+        {
+            await SyncService.Instance().SyncAsync();
+            mainFrame.Refresh();
         }
     }
 }

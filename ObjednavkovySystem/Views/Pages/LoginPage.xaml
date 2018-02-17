@@ -1,0 +1,55 @@
+﻿<Page x:Class="ObjednavkovySystem.Views.Pages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:userControls="clr-namespace:ObjednavkovySystem.Views.UserControls"
+      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ObjednavkovySystem.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="LoginPage">
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="600"
+          Background="#FFF7F7F7">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <TextBlock Text="Přihlášení do systému" HorizontalAlignment="Center" Style="{StaticResource TextTitleStyle}" />
+
+                <TextBlock Style="{StaticResource LineStyle}" />
+
+                <TextBlock Text="Uživatelské jméno" Style="{StaticResource TextSubTitleStyle}" />
+                <TextBox x:Name="userName" controls:TextBoxHelper.ClearTextButton="True" />
+
+                <TextBlock Text="Heslo" Style="{StaticResource TextSubTitleStyle}" Margin="0,15,0,0" />
+                <PasswordBox x:Name="userPass" controls:TextBoxHelper.ClearTextButton="True"
+                             KeyDown="UserPass_KeyDown" />
+            </StackPanel>
+
+            <Button Grid.Row="1" Style="{StaticResource CommandButtonStyle}" x:Name="LoginButton" Margin="0,15,0,0"
+                    Click="LoginButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <icons:PackIconModern Kind="PeopleArrowRight" />
+                    <TextBlock Text="Přihlásit se" Margin="5,0,0,0" />
+                </StackPanel>
+            </Button>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="15" HorizontalAlignment="Center"
+                        Visibility="Collapsed" x:Name="loadingControl">
+                <controls:ProgressRing IsActive="True" MaxWidth="10" MaxHeight="10" />
+                <TextBlock Text="Ověřuji" VerticalAlignment="Center" Margin="10,0,0,0" />
+            </StackPanel>
+
+            <userControls:InAppNotification x:Name="inAppNotification" Margin="0,15,0,0" Grid.Row="2" />
+        </Grid>
+
+        <Border Style="{StaticResource DefaultBorderStyle}" />
+    </Grid>
+</Page>

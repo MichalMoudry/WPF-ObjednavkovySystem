@@ -1,17 +1,22 @@
-﻿using Newtonsoft.Json;
-using ObjednavkovySystem.Helpers;
-using ObjednavkovySystem.Models;
-using RestSharp;
+﻿using ObjednavkovySystem.Models;
+using ObjednavkovySystem.Models.Database;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ObjednavkovySystem.ViewModels
 {
     internal class CustomerViewModel
     {
-        private List<Customer> _customers;
-
         private static CustomerViewModel _instance;
+        private ObservableCollection<Customer> _obervableCollCustomers;
+        private CustomerDatabase customerDatabase;
+
+        protected CustomerViewModel()
+        {
+            customerDatabase = new CustomerDatabase("CustomerDatabase.db3");
+        }
 
         public static CustomerViewModel Instance()
         {
@@ -22,68 +27,56 @@ namespace ObjednavkovySystem.ViewModels
             return _instance;
         }
 
-        public async Task<List<Customer>> GetCustomers()
+        public async Task DeleteCustomer(Customer customer, bool toSyncContext = true)
         {
-            RestRequest request = new RestRequest("/Users", Method.GET);
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
+            customer.IsDeleted = 1;
+            await customerDatabase.UpdateEntity(customer);
+            if (toSyncContext)
             {
-                _customers = await JsonParserer.ParseStringAsync<List<Customer>>(response.Content);
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = customer.ID, EntityType = "Customer", Operation = "Delete", Added = DateTime.Now, LastUpdated = DateTime.Now });
             }
-            return _customers;
+            if (_obervableCollCustomers != null)
+            {
+                _obervableCollCustomers.Remove(customer);
+            }
         }
 
-        public async Task<List<Customer>> GetCustomer(int id)
+        public async Task<Customer> GetCustomerByID(int id)
         {
-            RestRequest request = new RestRequest($"/Users/{id}", Method.GET);
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
-            {
-                _customers = await JsonParserer.ParseStringAsync<List<Customer>>(response.Content);
-            }
-            return _customers;
+            return await customerDatabase.GetEntityByID(id);
         }
 
-        public async Task<bool> AddCustomer(Customer customer)
+        public async Task<List<Customer>> GetCustomersAsList()
         {
-            await Task.Delay(10);
-            bool res = false;
-            RestRequest request = new RestRequest(Method.POST);
-            request.AddParameter("User", $"{JsonConvert.SerializeObject(customer)}");
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
-            {
-                res = true;
-            }
-            return res;
+            return await customerDatabase.GetEntitesAsList();
         }
 
-        public async Task<bool> DeleteCustomer(Customer customer)
+        public async Task<ObservableCollection<Customer>> GetCustomersAsObservable()
         {
-            await Task.Delay(10);
-            bool res = false;
-            RestRequest request = new RestRequest(Method.POST);
-            request.AddParameter("UserDelete", $"{JsonConvert.SerializeObject(customer)}");
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
-            {
-                res = true;
-            }
-            return res;
+            _obervableCollCustomers = new ObservableCollection<Customer>(await GetCustomersAsList());
+            return _obervableCollCustomers;
         }
 
-        public async Task<bool> UpdateCustomer(Customer customer)
+        public async Task InsertCustomer(Customer customer, bool toSyncContext = true)
         {
-            await Task.Delay(10);
-            bool res = false;
-            RestRequest request = new RestRequest(Method.POST);
-            request.AddParameter("UserUpdate", $"{JsonConvert.SerializeObject(customer)}");
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
+            await customerDatabase.SaveEntity(customer);
+            if (toSyncContext)
             {
-                res = true;
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = customer.ID, EntityType = "Customer", Operation = "Create", Added = DateTime.Now, LastUpdated = DateTime.Now });
             }
-            return res;
+            if (_obervableCollCustomers != null)
+            {
+                _obervableCollCustomers.Add(customer);
+            }
+        }
+
+        public async Task UpdateCutomer(Customer customer, bool toSyncContext = true)
+        {
+            await customerDatabase.UpdateEntity(customer);
+            if (toSyncContext)
+            {
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = customer.ID, EntityType = "Customer", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });
+            }
         }
     }
 }

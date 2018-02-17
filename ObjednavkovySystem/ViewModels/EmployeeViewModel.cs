@@ -1,18 +1,24 @@
 ﻿using CryptSharp;
-using Newtonsoft.Json;
-using ObjednavkovySystem.Helpers;
 using ObjednavkovySystem.Models;
-using RestSharp;
+using ObjednavkovySystem.Models.Database;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ObjednavkovySystem.ViewModels
 {
     internal class EmployeeViewModel
     {
         private static EmployeeViewModel _instance;
-        private List<Employee> _employees;
+        private ObservableCollection<Employee> _observableCollEmployees;
+        private EmployeeDatabase employeeDatabase;
+
+        protected EmployeeViewModel()
+        {
+            employeeDatabase = new EmployeeDatabase("EmployeeDatabase.db3");
+        }
 
         public static EmployeeViewModel Instance()
         {
@@ -23,96 +29,75 @@ namespace ObjednavkovySystem.ViewModels
             return _instance;
         }
 
-        public async Task<bool> AddEmployee(Employee employee)
+        public async Task<Employee> AuthAsync(Employee employee)
         {
-            await Task.Delay(10);
-            string salt = Crypter.Blowfish.GenerateSalt(4);
-            string password = Crypter.Blowfish.Crypt(employee.Password, salt);
-            employee.Password = password;
-            employee.Role = "Employee";
-            bool res = false;
-            RestRequest request = new RestRequest(Method.POST);
-            request.AddParameter("Employee", $"{JsonConvert.SerializeObject(employee)}");
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
-            {
-                res = true;
-            }
-            _employees.Add(employee);
-            return res;
-        }
-
-        public async Task<Employee> AuthEmployee(Employee employee)
-        {
-            List<Employee> employees = await Instance().GetEmployees(false);
             Employee matchEmployee = null;
-            foreach (Employee item in employees)
+            foreach (Employee item in await GetEmployeesAsList(false))
             {
                 if (Crypter.CheckPassword(employee.Password, item.Password) && employee.Name.Equals(item.Name))
                 {
                     matchEmployee = item;
                 }
             }
-
             return matchEmployee;
         }
 
-        public async Task<bool> DeleteEmployee(Employee employee)
+        public async Task DeleteEmployee(Employee employee, bool toSyncContext = true)
         {
-            await Task.Delay(10);
-            bool res = false;
-            RestRequest request = new RestRequest(Method.POST);
-            request.AddParameter("EmployeeDelete", $"{JsonConvert.SerializeObject(employee)}");
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
+            employee.IsDeleted = 1;
+            await employeeDatabase.UpdateEntity(employee);
+            if (toSyncContext)
             {
-                res = true;
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = employee.ID, EntityType = "Employee", Operation = "Delete", Added = DateTime.Now, LastUpdated = DateTime.Now });
             }
-            _employees.Remove(employee);
-            return res;
+            if (_observableCollEmployees != null)
+            {
+                _observableCollEmployees.Remove(employee);
+            }
         }
 
-        public async Task<List<Employee>> GetEmployee(int id)
+        public async Task<Employee> GetEmployeeByID(int id)
         {
-            RestRequest request = new RestRequest($"/Employees/{id}", Method.GET);
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
-            {
-                _employees = await JsonParserer.ParseStringAsync<List<Employee>>(response.Content);
-            }
-            return _employees;
+            return await employeeDatabase.GetEntityByID(id);
         }
 
-        public async Task<List<Employee>> GetEmployees(bool removeAdmin = true)
+        public async Task<List<Employee>> GetEmployeesAsList(bool removeAdmin = true)
         {
-            RestRequest request = new RestRequest("/Employees", Method.GET);
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
-            {
-                _employees = await JsonParserer.ParseStringAsync<List<Employee>>(response.Content);
-            }
+            List<Employee> list = await employeeDatabase.GetEntitesAsList();
             if (removeAdmin)
             {
-                Employee admin = _employees.FirstOrDefault(i => i.Name.Equals("Admin"));
-                _employees.Remove(admin);
+                list.Remove(list.FirstOrDefault(i => i.Name.Equals("Admin")));
             }
-            return _employees;
+            return list;
         }
 
-        public async Task<bool> UpdateEmployee(Employee employee)
+        public async Task<ObservableCollection<Employee>> GetEmployeesAsObservable(bool removeAdmin = true)
         {
-            await Task.Delay(10);
-            bool res = false;
-            string password = Crypter.Blowfish.Crypt(employee.Password, Crypter.Blowfish.GenerateSalt(4));
-            employee.Password = password;
-            RestRequest request = new RestRequest(Method.POST);
-            request.AddParameter("EmployeeUpdate", $"{JsonConvert.SerializeObject(employee)}");
-            var response = RESTHelper.Instance().Client.Execute(request);
-            if (response.IsSuccessful)
+            _observableCollEmployees = new ObservableCollection<Employee>(await GetEmployeesAsList(removeAdmin));
+            return _observableCollEmployees;
+        }
+
+        public async Task InsertEmployee(Employee employee, bool toSyncContext = true)
+        {
+            employee.Password = Crypter.Blowfish.Crypt(employee.Password);
+            await employeeDatabase.SaveEntity(employee);
+            if (toSyncContext)
             {
-                res = true;
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = employee.ID, EntityType = "Employee", Operation = "Create", Added = DateTime.Now, LastUpdated = DateTime.Now });
             }
-            return res;
+            if (_observableCollEmployees != null)
+            {
+                _observableCollEmployees.Add(employee);
+            }
+        }
+
+        public async Task UpdateEmployee(Employee employee, bool toSyncContext = true)
+        {
+            await employeeDatabase.UpdateEntity(employee);
+            if (toSyncContext)
+            {
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = employee.ID, EntityType = "Employee", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });
+            }
         }
     }
 }
