@@ -107,10 +107,6 @@ namespace ObjednavkovySystem.Services
                     await EmployeeViewModel.Instance().UpdateEmployee(localEmployee, false);
                 }
             }
-            /*foreach (Employee localEmployee in _localEmployees)
-            {
-                remoteEmployee = _remoteEmployees.Where(i => i.ID == localEmployee.ID).FirstOrDefault();
-            }*/
         }
 
         private async Task CompareOrders()
@@ -173,6 +169,7 @@ namespace ObjednavkovySystem.Services
 
         private async void ExecutePushOp(SyncContext contextEntry)
         {
+            System.Diagnostics.Debug.WriteLine(contextEntry.EntityType);
             RestRequest request = new RestRequest(Method.POST);
             IRestResponse response = null;
             string value = null;
@@ -192,14 +189,30 @@ namespace ObjednavkovySystem.Services
             {
                 value = $"{JsonConvert.SerializeObject(await OrderViewModel.Instance().GetOrderByID(contextEntry.EntityID))}";
             }
-            request.AddParameter(GetRequestParam(contextEntry.Operation), value);
+            request.AddParameter(GetRequestParam(contextEntry.Operation, contextEntry.EntityType), value);
             response = RESTHelper.Instance().Client.Execute(request);
             request.Parameters.Clear();
         }
 
-        private string GetRequestParam(string op)
+        private string GetRequestParam(string op, string entity)
         {
             string param = "";
+            if (entity.Equals("Order"))
+            {
+                entity = "Transaction";
+            }
+            else if (entity.Equals("Customer"))
+            {
+                entity = "User";
+            }
+            if (op.Equals("Create"))
+            {
+                param = entity;
+            }
+            else
+            {
+                param = $"{entity}{op}";
+            }
             return param;
         }
     }

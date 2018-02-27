@@ -67,5 +67,31 @@ namespace ObjednavkovySystem.Views.Pages
                     break;
             }
         }
+
+        private void List_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListView senderList = (ListView)sender;
+            if (senderList.SelectedItem != null)
+            {
+                object selectedItem = senderList.SelectedItem;
+                if (senderList.Name.Equals("OrdersList"))
+                {
+                    DialogService.Instance().ShowUpdateDialog((Order)selectedItem);
+                }
+                else if (senderList.Name.Equals("CustomersList"))
+                {
+                    DialogService.Instance().ShowUpdateDialog((Customer)selectedItem);
+                }
+                else if (senderList.Name.Equals("CarsList"))
+                {
+                    DialogService.Instance().ShowUpdateDialog((Car)selectedItem);
+                }
+                else if (senderList.Name.Equals("EmployeesList"))
+                {
+                    DialogService.Instance().ShowUpdateDialog((Employee)selectedItem);
+                }
+                senderList.SelectedIndex = -1;
+            }
+        }
     }
 }

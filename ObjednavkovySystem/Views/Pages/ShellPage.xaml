@@ -28,7 +28,7 @@
             <TextBlock Style="{StaticResource TextTitleStyle}" Margin="5,0,5,0" Text="Objednávky" />
 
             <Grid Margin="5" Grid.Row="1">
-                <ListView x:Name="OrdersList" Loaded="List_Loaded">
+                <ListView x:Name="OrdersList" Loaded="List_Loaded" SelectionChanged="List_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="7">
@@ -64,7 +64,7 @@
             <TextBlock Style="{StaticResource TextTitleStyle}" Margin="5,0,5,0" Text="Zákazníci" />
 
             <Grid Margin="5" Grid.Row="1">
-                <ListView x:Name="CustomersList" Loaded="List_Loaded">
+                <ListView x:Name="CustomersList" Loaded="List_Loaded" SelectionChanged="List_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="7">
@@ -99,7 +99,7 @@
             <TextBlock Style="{StaticResource TextTitleStyle}" Margin="5,0,5,0" Text="Auta" />
 
             <Grid Margin="5" Grid.Row="1">
-                <ListView x:Name="CarsList" Loaded="List_Loaded">
+                <ListView x:Name="CarsList" Loaded="List_Loaded" SelectionChanged="List_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="7">
@@ -134,7 +134,7 @@
             <TextBlock Style="{StaticResource TextTitleStyle}" Margin="5,0,5,0" Text="Zaměstnanci" />
 
             <Grid Margin="5" Grid.Row="1">
-                <ListView x:Name="EmployeesList" Loaded="List_Loaded">
+                <ListView x:Name="EmployeesList" Loaded="List_Loaded" SelectionChanged="List_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="7">

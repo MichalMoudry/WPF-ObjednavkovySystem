@@ -33,7 +33,7 @@ namespace ObjednavkovySystem.ViewModels
             await orderDatabase.UpdateEntity(order);
             if (toSyncContext)
             {
-                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = order.ID, EntityType = "Order", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = order.ID, EntityType = "Transaction", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });
             }
             if (_observableCollOrders != null)
             {
@@ -62,7 +62,7 @@ namespace ObjednavkovySystem.ViewModels
             await orderDatabase.SaveEntity(order);
             if (toSyncContext)
             {
-                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = order.ID, EntityType = "Order", Operation = "Create", Added = DateTime.Now, LastUpdated = DateTime.Now });
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = order.ID, EntityType = "Transaction", Operation = "Create", Added = DateTime.Now, LastUpdated = DateTime.Now });
             }
             if (_observableCollOrders != null)
             {
@@ -75,7 +75,7 @@ namespace ObjednavkovySystem.ViewModels
             await orderDatabase.UpdateEntity(order);
             if (toSyncContext)
             {
-                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = order.ID, EntityType = "Order", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = order.ID, EntityType = "Transaction", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });
             }
         }
     }

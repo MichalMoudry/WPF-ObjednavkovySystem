@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ObjednavkovySystem.Views.UserControls"
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <StackPanel>
-            <TextBlock x:Name="Header" Style="{StaticResource TextTitleStyle}" />
-            <TextBlock x:Name="ControlContent" Style="{StaticResource TextContentStyle}" />
-            <TextBlock x:Name="Line" Style="{StaticResource LineStyle}" />
-        </StackPanel>
-    </Grid>
+    <StackPanel>
+        <TextBlock x:Name="Header" Style="{StaticResource TextTitleStyle}" />
+        <TextBlock x:Name="Line" Style="{StaticResource LineStyle}" />
+        <TextBlock Visibility="Collapsed" x:Name="ControlContent" Margin="5,0,5,0" Style="{StaticResource TextContentStyle}" />
+        <TextBox Visibility="Collapsed" x:Name="TextBoxContent" Margin="5,0,5,0" controls:TextBoxHelper.ClearTextButton="True" />
+    </StackPanel>
 </UserControl>

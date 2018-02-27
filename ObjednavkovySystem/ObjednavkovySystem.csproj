@@ -139,6 +139,9 @@
     <Compile Include="Views\Windows\Dialogs\AddEntityDialog.xaml.cs">
       <DependentUpon>AddEntityDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Windows\Dialogs\DeleteDialog.xaml.cs">
+      <DependentUpon>DeleteDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Windows\Dialogs\UpdateEntityDialog.xaml.cs">
       <DependentUpon>UpdateEntityDialog.xaml</DependentUpon>
     </Compile>
@@ -193,6 +196,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\Dialogs\AddEntityDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\Dialogs\DeleteDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

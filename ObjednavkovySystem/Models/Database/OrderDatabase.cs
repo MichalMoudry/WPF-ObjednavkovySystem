@@ -37,7 +37,8 @@ namespace ObjednavkovySystem.Models.Database
             }
             else
             {
-                string sql = $"INSERT INTO Order(ID, Added, LastUpdated, UserID, CarID, Rented, EmployeeID, IsDone) VALUES ({entity.ID}, '{entity.Added.ToString("yyyy-MM-dd HH:mm:ss")}', '{entity.LastUpdated.ToString("yyyy-MM-dd HH:mm:ss")}', {entity.UserID}, {entity.CarID}, '{entity.Rented}', {entity.EmployeeID}, {entity.IsDone})";
+                //.ToString("yyyy-MM-dd HH:mm:ss")
+                string sql = $"INSERT INTO Order(ID, UserID, CarID, Rented, EmployeeID, IsDone, Added, LastUpdated, IsDeleted) VALUES ('{entity.ID}', '{entity.UserID}', '{entity.CarID}', '{entity.Rented.ToString("yyyy-MM-dd HH:mm:ss")}', '{entity.EmployeeID}', '{entity.IsDone}', '{entity.Added.ToString("yyyy-MM-dd HH:mm:ss")}', '{entity.LastUpdated.ToString("yyyy-MM-dd HH:mm:ss")}', '{entity.IsDeleted}')";
                 await database.QueryAsync<Order>(sql);
             }
         }

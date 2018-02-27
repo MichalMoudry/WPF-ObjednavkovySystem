@@ -53,7 +53,6 @@ namespace ObjednavkovySystem.Views.Pages
                 inAppNotification.Show("Formulář nebyl vyplněn správně", "#cc291a");
             }
             loadingControl.Visibility = Visibility.Collapsed;
-
         }
 
         private bool ValidateForm()

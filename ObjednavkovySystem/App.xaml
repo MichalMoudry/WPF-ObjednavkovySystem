@@ -28,6 +28,7 @@
                 <Setter Property="FontSize" Value="17" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="0,10,0,0" />
             </Style>
 
             <Style TargetType="Border" x:Key="DefaultBorderStyle">
@@ -49,7 +50,7 @@
             <Style x:Key="LineStyle" TargetType="TextBlock">
                 <Setter Property="Background" Value="Black" />
                 <Setter Property="Height" Value="1" />
-                <Setter Property="Margin" Value="0,13,0,13" />
+                <Setter Property="Margin" Value="5" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

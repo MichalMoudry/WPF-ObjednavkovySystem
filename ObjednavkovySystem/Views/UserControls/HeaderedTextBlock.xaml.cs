@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows;
 
 namespace ObjednavkovySystem.Views.UserControls
 {
@@ -7,11 +8,20 @@ namespace ObjednavkovySystem.Views.UserControls
     /// </summary>
     public partial class HeaderedTextBlock : UserControl
     {
-        public HeaderedTextBlock(string header, string content)
+        public HeaderedTextBlock(string header, string content, bool edit = false)
         {
             InitializeComponent();
             Header.Text = header;
-            ControlContent.Text = content;
+            if (edit.Equals(false))
+            {
+                ControlContent.Visibility = Visibility.Visible;
+                ControlContent.Text = content;
+            }
+            else
+            {
+                TextBoxContent.Visibility = Visibility.Visible;
+                TextBoxContent.Text = content;
+            }
         }
     }
 }

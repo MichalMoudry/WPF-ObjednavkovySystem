@@ -7,6 +7,8 @@ namespace ObjednavkovySystem.Services
     {
         private static DialogService _instance;
         private AddEntityDialog _addEntityDialog;
+        private DeleteDialog _deleteDialog;
+        private UpdateEntityDialog _updateEntityDialog;
 
         protected DialogService()
         {
@@ -19,6 +21,36 @@ namespace ObjednavkovySystem.Services
                 _instance = new DialogService();
             }
             return _instance;
+        }
+
+        public void ShowDeleteDialog(string title)
+        {
+            _deleteDialog = new DeleteDialog(title);
+            _deleteDialog.ShowDialog();
+        }
+
+        public void ShowUpdateDialog(Order order)
+        {
+            _updateEntityDialog = new UpdateEntityDialog(order);
+            _updateEntityDialog.ShowDialog();
+        }
+
+        public void ShowUpdateDialog(Employee employee)
+        {
+            _updateEntityDialog = new UpdateEntityDialog(employee);
+            _updateEntityDialog.ShowDialog();
+        }
+
+        public void ShowUpdateDialog(Customer customer)
+        {
+            _updateEntityDialog = new UpdateEntityDialog(customer);
+            _updateEntityDialog.ShowDialog();
+        }
+
+        public void ShowUpdateDialog(Car car)
+        {
+            _updateEntityDialog = new UpdateEntityDialog(car);
+            _updateEntityDialog.ShowDialog();
         }
 
         public void ShowAddEntityDialog(Order order)
