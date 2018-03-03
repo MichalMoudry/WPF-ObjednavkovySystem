@@ -37,7 +37,7 @@ namespace ObjednavkovySystem.Models.Database
             }
             else
             {
-                string sql = $"INSERT INTO Car(ID, Added, LastUpdated, Name, IsLent) VALUES ({entity.ID}, '{entity.Added.ToString("yyyy-MM-dd HH:mm:ss")}', '{entity.LastUpdated.ToString("yyyy-MM-dd HH:mm:ss")}', '{entity.Name}', {entity.IsLent})";
+                string sql = $"INSERT INTO Car (ID, Added, LastUpdated, Name, IsLent) VALUES ({entity.ID}, '{entity.Added.Ticks}', '{entity.LastUpdated.Ticks}', '{entity.Name}', {entity.IsLent})";
                 await database.QueryAsync<Car>(sql);
             }
         }

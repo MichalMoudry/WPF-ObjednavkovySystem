@@ -12,10 +12,7 @@ namespace ObjednavkovySystem
         protected async override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            await Task.Run(async () =>
-            {
-                await SyncService.Instance().SyncAsync();
-            });
+            await SyncService.Instance().SyncAsync();
         }
     }
 }

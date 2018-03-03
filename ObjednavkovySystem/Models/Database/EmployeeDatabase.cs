@@ -37,7 +37,7 @@ namespace ObjednavkovySystem.Models.Database
             }
             else
             {
-                string sql = $"INSERT INTO Employee(ID, Name, Added, LastUpdated, Password, Role) VALUES ({entity.ID}, '{entity.Name}', '{entity.Added.ToString("yyyy-MM-dd HH:mm:ss")}', '{entity.LastUpdated.ToString("yyyy-MM-dd HH:mm:ss")}', '{entity.Password}', '{entity.Role}')";
+                string sql = $"INSERT INTO Employee(ID, Name, Added, LastUpdated, Password, Role) VALUES ({entity.ID}, '{entity.Name}', '{entity.Added.Ticks}', '{entity.LastUpdated.Ticks}', '{entity.Password}', '{entity.Role}')";
                 await database.QueryAsync<Employee>(sql);
             }
         }

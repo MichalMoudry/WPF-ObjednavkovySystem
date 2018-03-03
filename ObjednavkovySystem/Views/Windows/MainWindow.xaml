@@ -19,7 +19,7 @@
             <Button x:Name="SyncButton" Click="SyncButton_Click">
                 <StackPanel Orientation="Horizontal">
                     <icons:PackIconModern Kind="Refresh" />
-                    <TextBlock Text="Synchronizovat data" Margin="7,0,0,0" />
+                    <TextBlock Text="Synchronizovat" Margin="7,0,0,0" />
                 </StackPanel>
             </Button>
             

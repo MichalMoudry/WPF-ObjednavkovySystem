@@ -41,7 +41,7 @@ namespace ObjednavkovySystem.Views.Pages
                 Employee authRes = await EmployeeViewModel.Instance().AuthAsync(new Employee() { Name = userName.Text, Password = userPass.Password });
                 if (authRes != null)
                 {
-                    NavigationService.Navigate(new ShellPage(authRes.Role));
+                    NavigationService.Navigate(new MainPage(authRes.Role));
                 }
                 else
                 {

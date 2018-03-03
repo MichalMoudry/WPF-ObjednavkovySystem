@@ -42,10 +42,12 @@ namespace ObjednavkovySystem.ViewModels
             return matchEmployee;
         }
 
-        public async Task DeleteEmployee(Employee employee, bool toSyncContext = true)
+        public async Task DeleteEmployee(Employee employee, bool toSyncContext = true, bool isHardDelete = false)
         {
-            employee.IsDeleted = 1;
-            await employeeDatabase.UpdateEntity(employee);
+            if (isHardDelete)
+            {
+                await employeeDatabase.DeleteEntity(employee);
+            }
             if (toSyncContext)
             {
                 await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = employee.ID, EntityType = "Employee", Operation = "Delete", Added = DateTime.Now, LastUpdated = DateTime.Now });
@@ -71,15 +73,20 @@ namespace ObjednavkovySystem.ViewModels
             return list;
         }
 
-        public async Task<ObservableCollection<Employee>> GetEmployeesAsObservable(bool removeAdmin = true)
+        public async Task<ObservableCollection<Employee>> GetEmployeesAsObservable()
         {
-            _observableCollEmployees = new ObservableCollection<Employee>(await GetEmployeesAsList(removeAdmin));
+            _observableCollEmployees = new ObservableCollection<Employee>(await GetEmployeesAsList());
             return _observableCollEmployees;
+        }
+
+        public async Task<Employee> GetLastEntity()
+        {
+            List<Employee> list = await GetEmployeesAsList(false);
+            return list.Last();
         }
 
         public async Task InsertEmployee(Employee employee, bool toSyncContext = true)
         {
-            employee.Password = Crypter.Blowfish.Crypt(employee.Password);
             await employeeDatabase.SaveEntity(employee);
             if (toSyncContext)
             {
@@ -94,6 +101,8 @@ namespace ObjednavkovySystem.ViewModels
         public async Task UpdateEmployee(Employee employee, bool toSyncContext = true)
         {
             await employeeDatabase.UpdateEntity(employee);
+            int index = _observableCollEmployees.IndexOf(employee);
+            _observableCollEmployees[index] = employee;
             if (toSyncContext)
             {
                 await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = employee.ID, EntityType = "Employee", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });

@@ -11,7 +11,5 @@ namespace ObjednavkovySystem.Models.Extensions
         public DateTime Added { get; set; }
 
         public DateTime LastUpdated { get; set; }
-
-        public int IsDeleted { get; set; }
     }
 }

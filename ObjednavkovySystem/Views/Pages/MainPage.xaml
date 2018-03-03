@@ -1,0 +1,172 @@
+﻿<Page x:Class="ObjednavkovySystem.Views.Pages.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ObjednavkovySystem.Views.Pages"
+      xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:userControls="clr-namespace:ObjednavkovySystem.Views.UserControls"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="ShellPage">
+
+    <Page.Resources>
+        <Style x:Key="ListViewGridStyle" TargetType="Grid">
+            <Setter Property="Margin" Value="5,2,5,5" />
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid Background="#FFF7F7F7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!--Orders-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Style="{StaticResource TextTitleStyle}" Margin="5,0,5,0" Text="Objednávky" />
+
+                <Grid Style="{StaticResource ListViewGridStyle}" Grid.Row="1">
+                    <ListView x:Name="OrdersList" Loaded="List_Loaded" SelectionChanged="List_SelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="7">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Objednávka č." />
+                                        <TextBlock Text="{Binding ID}" Margin="2,0,0,0" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Border Style="{StaticResource DefaultBorderStyle}" />
+                </Grid>
+
+                <Button x:Name="AddOrderButton" Click="AddButton_Click" Style="{StaticResource CommandButtonStyle}"
+                    Grid.Row="2" Margin="5,0,5,0">
+                    <StackPanel Orientation="Horizontal">
+                        <icons:PackIconModern Kind="Add" />
+                        <TextBlock Text="Přidat" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!--Customers-->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Style="{StaticResource TextTitleStyle}" Margin="5,0,5,0" Text="Zákazníci" />
+
+                <Grid Style="{StaticResource ListViewGridStyle}" Grid.Row="1">
+                    <ListView x:Name="CustomersList" Loaded="List_Loaded" SelectionChanged="List_SelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="7">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Border Style="{StaticResource DefaultBorderStyle}" />
+                </Grid>
+
+                <Button x:Name="AddCustomerButton" Click="AddButton_Click" Style="{StaticResource CommandButtonStyle}"
+                    Grid.Row="2" Margin="5,0,5,0">
+                    <StackPanel Orientation="Horizontal">
+                        <icons:PackIconModern Kind="Add" />
+                        <TextBlock Text="Přidat" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!--Cars-->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Style="{StaticResource TextTitleStyle}" Margin="5,0,5,0" Text="Auta" />
+
+                <Grid Style="{StaticResource ListViewGridStyle}" Grid.Row="1">
+                    <ListView x:Name="CarsList" Loaded="List_Loaded" SelectionChanged="List_SelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="7">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Border Style="{StaticResource DefaultBorderStyle}" />
+                </Grid>
+
+                <Button x:Name="AddCarButton" Click="AddButton_Click"  Style="{StaticResource CommandButtonStyle}"
+                    Grid.Row="2" Margin="5,0,5,0">
+                    <StackPanel Orientation="Horizontal">
+                        <icons:PackIconModern Kind="Add" />
+                        <TextBlock Text="Přidat" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!--Employees-->
+            <Grid Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Style="{StaticResource TextTitleStyle}" Margin="5,0,5,0" Text="Zaměstnanci" />
+
+                <Grid Style="{StaticResource ListViewGridStyle}" Grid.Row="1">
+                    <ListView x:Name="EmployeesList" Loaded="List_Loaded" SelectionChanged="List_SelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="7">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Border Style="{StaticResource DefaultBorderStyle}" />
+                </Grid>
+
+                <Button x:Name="AddEmployeeButton" Click="AddButton_Click"  Style="{StaticResource CommandButtonStyle}"
+                    Grid.Row="2" Margin="5,0,5,0">
+                    <StackPanel Orientation="Horizontal">
+                        <icons:PackIconModern Kind="Add" />
+                        <TextBlock Text="Přidat" Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+
+        <userControls:InAppNotification x:Name="notification" />
+    </Grid>
+</Page>

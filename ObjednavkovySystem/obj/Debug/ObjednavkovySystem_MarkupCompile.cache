@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\moudrmi14\Repos\GitHub\ObjednavkovySystem\ObjednavkovySystem\obj\Debug\
+C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\
 ObjednavkovySystem
 none
 false
 DEBUG;TRACE
-D:\moudrmi14\Repos\GitHub\ObjednavkovySystem\ObjednavkovySystem\App.xaml
-8-179239683
-2-1012522182
-34494675329
-82-1947903160
-Views\Pages\LoginPage.xaml;Views\Pages\ShellPage.xaml;Views\UserControls\HeaderedTextBlock.xaml;Views\UserControls\InAppNotification.xaml;Views\Windows\Dialogs\AddEntityDialog.xaml;Views\Windows\Dialogs\DeleteDialog.xaml;Views\Windows\Dialogs\UpdateEntityDialog.xaml;Views\Windows\MainWindow.xaml;
+C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\App.xaml
+7-1601394019
+2-170831788
+32443666482
+821912129016
+Views\Pages\LoginPage.xaml;Views\Pages\MainPage.xaml;Views\UserControls\InAppNotification.xaml;Views\Windows\Dialogs\AddEntityDialog.xaml;Views\Windows\Dialogs\DeleteDialog.xaml;Views\Windows\Dialogs\UpdateEntityDialog.xaml;Views\Windows\MainWindow.xaml;
 
-False
+True
 

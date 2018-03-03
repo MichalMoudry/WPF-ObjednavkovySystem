@@ -23,7 +23,6 @@ C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\bin\Debug
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\bin\Debug\System.ValueTuple.xml
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\ObjednavkovySystem.csprojResolveAssemblyReference.cache
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\Pages\ShellPage.g.cs
-C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\UserControls\HeaderedTextBlock.g.cs
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\UserControls\InAppNotification.g.cs
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\Windows\MainWindow.g.cs
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\App.g.cs
@@ -48,7 +47,6 @@ C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\App.baml
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\Pages\LoginPage.baml
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\Pages\ShellPage.baml
-C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\UserControls\HeaderedTextBlock.baml
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\UserControls\InAppNotification.baml
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\Windows\Dialogs\AddEntityDialog.baml
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\Windows\Dialogs\UpdateEntityDialog.baml
@@ -112,3 +110,5 @@ D:\moudrmi14\Repos\GitHub\ObjednavkovySystem\ObjednavkovySystem\obj\Debug\Objedn
 D:\moudrmi14\Repos\GitHub\ObjednavkovySystem\ObjednavkovySystem\obj\Debug\ObjednavkovySystem.csproj.CoreCompileInputs.cache
 D:\moudrmi14\Repos\GitHub\ObjednavkovySystem\ObjednavkovySystem\obj\Debug\ObjednavkovySystem.exe
 D:\moudrmi14\Repos\GitHub\ObjednavkovySystem\ObjednavkovySystem\obj\Debug\ObjednavkovySystem.pdb
+C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\Windows\Dialogs\DeleteDialog.g.cs
+C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\obj\Debug\Views\Windows\Dialogs\DeleteDialog.baml

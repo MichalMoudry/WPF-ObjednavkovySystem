@@ -3,8 +3,8 @@ using ObjednavkovySystem.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ObjednavkovySystem.ViewModels
 {
@@ -12,7 +12,6 @@ namespace ObjednavkovySystem.ViewModels
     {
         private static CarViewModel _instance;
         private ObservableCollection<Car> _observableCollCars;
-        private List<Car> _cars;
         private CarDatabase carDatabase;
 
         protected CarViewModel()
@@ -29,10 +28,12 @@ namespace ObjednavkovySystem.ViewModels
             return _instance;
         }
 
-        public async Task DeleteCar(Car car, bool toSyncContext = true)
+        public async Task DeleteCar(Car car, bool toSyncContext = true, bool isHardDelete = false)
         {
-            car.IsDeleted = 1;
-            await carDatabase.UpdateEntity(car);
+            if (isHardDelete)
+            {
+                await carDatabase.DeleteEntity(car);
+            }
             if (toSyncContext)
             {
                 await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = car.ID, EntityType = "Car", Operation = "Delete", Added = DateTime.Now, LastUpdated = DateTime.Now });
@@ -50,14 +51,19 @@ namespace ObjednavkovySystem.ViewModels
 
         public async Task<List<Car>> GetCarsAsList()
         {
-            _cars = await carDatabase.GetEntitesAsList();
-            return _cars.Where(i => i.IsDeleted == 0).ToList();
+            return await carDatabase.GetEntitesAsList();
         }
 
         public async Task<ObservableCollection<Car>> GetCarsAsObservable()
         {
             _observableCollCars = new ObservableCollection<Car>(await GetCarsAsList());
             return _observableCollCars;
+        }
+
+        public async Task<Car> GetLastEntity()
+        {
+            List<Car> list = await GetCarsAsList();
+            return list.Last();
         }
 
         public async Task InsertCar(Car car, bool toSyncContext = true)
@@ -76,6 +82,8 @@ namespace ObjednavkovySystem.ViewModels
         public async Task UpdateCar(Car car, bool toSyncContext = true)
         {
             await carDatabase.UpdateEntity(car);
+            int index = _observableCollCars.IndexOf(car);
+            _observableCollCars[index] = car;
             if (toSyncContext)
             {
                 await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = car.ID, EntityType = "Car", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });
