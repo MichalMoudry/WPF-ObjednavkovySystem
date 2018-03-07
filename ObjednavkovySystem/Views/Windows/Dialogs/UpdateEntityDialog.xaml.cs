@@ -113,7 +113,10 @@ namespace ObjednavkovySystem.Views.Windows.Dialogs
                     Employee employee = await EmployeeViewModel.Instance().GetEmployeeByID(entityID);
                     employee.LastUpdated = DateTime.Now;
                     employee.Name = employeeNameTextBox.Text;
-                    employee.Password = Crypter.Blowfish.Crypt(employeePass.Password);
+                    if (string.IsNullOrEmpty(employeePass.Password).Equals(false))
+                    {
+                        employee.Password = Crypter.Blowfish.Crypt(employeePass.Password);
+                    }
                     await EmployeeViewModel.Instance().UpdateEmployee(employee);
                 }
             }
@@ -175,7 +178,7 @@ namespace ObjednavkovySystem.Views.Windows.Dialogs
 
         private bool ValidateEmployeePanelForm()
         {
-            if (string.IsNullOrEmpty(employeeNameTextBox.Text).Equals(false) && string.IsNullOrEmpty(employeePass.Password).Equals(false))
+            if (string.IsNullOrEmpty(employeeNameTextBox.Text).Equals(false))
             {
                 return true;
             }

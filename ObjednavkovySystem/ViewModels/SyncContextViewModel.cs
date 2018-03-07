@@ -24,12 +24,18 @@ namespace ObjednavkovySystem.ViewModels
             return _instance;
         }
 
+        public async Task<int> GetNumberOfEntries()
+        {
+            List<SyncContext> list = await GetSyncContextAsList();
+            return list.Count;
+        }
+
         public async Task DeleteContextEntry(SyncContext entry)
         {
             await syncDatabase.DeleteEntity(entry);
         }
 
-        public async Task<List<SyncContext>> GetSyncContext()
+        public async Task<List<SyncContext>> GetSyncContextAsList()
         {
             return await syncDatabase.GetEntitesAsList();
         }

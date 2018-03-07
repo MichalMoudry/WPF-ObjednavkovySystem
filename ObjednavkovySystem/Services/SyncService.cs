@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
 
 namespace ObjednavkovySystem.Services
 {
@@ -15,26 +16,39 @@ namespace ObjednavkovySystem.Services
         private static SyncService _instance;
 
         //Local.
+        private List<Car> _localCars;
+        private List<Customer> _localCustomers;
+        private List<Employee> _localEmployees;
+        private List<Transactions> _localOrders;
         private Car _localCar;
         private Customer _localCustomer;
         private Employee _localEmployee;
         private Transactions _localOrder;
 
         //Remote.
-        private List<Car> _remoteCars = new List<Car>();
-        private List<Customer> _remoteCustomers = new List<Customer>();
-        private List<Employee> _remoteEmployees = new List<Employee>();
-        private List<Transactions> _remoteOrders = new List<Transactions>();
-        private Transactions _remoteTransaction;
+        private List<Car> _remoteCars;
+        private List<Customer> _remoteCustomers;
+        private List<Employee> _remoteEmployees;
+        private List<Transactions> _remoteOrders;
+        private Transactions _remoteOrder;
         private Employee _remoteEmployee;
         private Customer _remoteCustomer;
         private Car _remoteCar;
         
         private bool _objectComparsion;
+        private int _syncOps;
         private List<SyncContext> _syncContext;
 
         protected SyncService()
         {
+            _localCars = new List<Car>();
+            _localCustomers = new List<Customer>();
+            _localEmployees = new List<Employee>();
+            _localOrders = new List<Transactions>();
+            _remoteCars = new List<Car>();
+            _remoteCustomers = new List<Customer>();
+            _remoteEmployees = new List<Employee>();
+            _remoteOrders = new List<Transactions>();
         }
 
         public static SyncService Instance()
@@ -50,12 +64,19 @@ namespace ObjednavkovySystem.Services
         {
             if (NetworkInterface.GetIsNetworkAvailable())
             {
-                await PullAsync();
-                await PushAsync();
+                _syncOps = await SyncContextViewModel.Instance().GetNumberOfEntries();
+                if (_syncOps > 0)
+                {
+                    await PushAsync();
+                }
+                else if (_syncOps == 0)
+                {
+                    await PullAsync();
+                }
             }
         }
 
-        private async Task CompareCars()
+        private async Task CompareRemoteCars()
         {
             foreach (Car remoteCar in _remoteCars)
             {
@@ -90,15 +111,23 @@ namespace ObjednavkovySystem.Services
             }
         }
 
-        private async Task CompareCollections()
+        private async Task CompareRemoteCollections()
         {
-            await CompareEmployees();
-            await CompareCars();
-            await CompareCustomers();
-            await CompareOrders();
+            await CompareRemoteEmployees();
+            await CompareRemoteCars();
+            await CompareRemoteCustomers();
+            await CompareRemoteOrders();
         }
 
-        private async Task CompareCustomers()
+        private async Task CompareLocalCollections()
+        {
+            await CompareLocalEmployees();
+            await CompareLocalCars();
+            await CompareLocalCustomers();
+            await CompareLocalOrders();
+        }
+
+        private async Task CompareRemoteCustomers()
         {
             foreach (Customer remoteCustomer in _remoteCustomers)
             {
@@ -133,7 +162,59 @@ namespace ObjednavkovySystem.Services
             }
         }
 
-        private async Task CompareEmployees()
+        private async Task CompareLocalCustomers()
+        {
+            _localCustomers = await CustomerViewModel.Instance().GetCustomersAsList();
+            foreach (Customer localCustomer in _localCustomers)
+            {
+                _remoteCustomer = _remoteCustomers.Where(i => i.ID == localCustomer.ID).FirstOrDefault();
+                if (_remoteCustomer == null)
+                {
+                    await CustomerViewModel.Instance().DeleteCustomer(localCustomer, false, true);
+                }
+            }
+        }
+
+        private async Task CompareLocalEmployees()
+        {
+            _localEmployees = await EmployeeViewModel.Instance().GetEmployeesAsList();
+            foreach (Employee localEmployee in _localEmployees)
+            {
+                _remoteEmployee = _remoteEmployees.Where(i => i.ID == localEmployee.ID).FirstOrDefault();
+                if (_remoteEmployee == null)
+                {
+                    await EmployeeViewModel.Instance().DeleteEmployee(localEmployee, false, true);
+                }
+            }
+        }
+
+        private async Task CompareLocalOrders()
+        {
+            _localOrders = await TransactionsViewModel.Instance().GetOrdersAsList();
+            foreach (Transactions localOrder in _localOrders)
+            {
+                _remoteOrder = _remoteOrders.Where(i => i.ID == localOrder.ID).FirstOrDefault();
+                if (_remoteOrder == null)
+                {
+                    await TransactionsViewModel.Instance().DeleteOrder(localOrder, false, true);
+                }
+            }
+        }
+
+        private async Task CompareLocalCars()
+        {
+            _localCars = await CarViewModel.Instance().GetCarsAsList();
+            foreach (Car localCar in _localCars)
+            {
+                _remoteCar = _remoteCars.Where(i => i.ID == localCar.ID).FirstOrDefault();
+                if (_remoteCar == null)
+                {
+                    await CarViewModel.Instance().DeleteCar(localCar, false, true);
+                }
+            }
+        }
+
+        private async Task CompareRemoteEmployees()
         {
             foreach (Employee remoteEmployee in _remoteEmployees)
             {
@@ -168,7 +249,7 @@ namespace ObjednavkovySystem.Services
             }
         }
 
-        private async Task CompareOrders()
+        private async Task CompareRemoteOrders()
         {
             foreach (Transactions remoteOrder in _remoteOrders)
             {
@@ -192,8 +273,8 @@ namespace ObjednavkovySystem.Services
                     {
                         _localOrder = await TransactionsViewModel.Instance().GetLastEntity();
                         remoteOrder.ID = _localOrder.ID + 1;
-                        _remoteTransaction = await TransactionsViewModel.Instance().GetOrderByID(remoteOrder.ID);
-                        if (_remoteTransaction == null)
+                        _remoteOrder = await TransactionsViewModel.Instance().GetOrderByID(remoteOrder.ID);
+                        if (_remoteOrder == null)
                         {
                             IncrementRemoteEntity(remoteOrder);
                             await TransactionsViewModel.Instance().InsertOrder(remoteOrder, false);
@@ -333,12 +414,13 @@ namespace ObjednavkovySystem.Services
                     }
                 }
             }
-            await CompareCollections();
+            await CompareRemoteCollections();
+            await CompareLocalCollections();
         }
 
         private async Task PushAsync()
         {
-            _syncContext = await SyncContextViewModel.Instance().GetSyncContext();
+            _syncContext = await SyncContextViewModel.Instance().GetSyncContextAsList();
             foreach (SyncContext contextEntry in _syncContext)
             {
                 ExecutePushOp(contextEntry);
