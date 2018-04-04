@@ -15,3 +15,5 @@ ObjednavkovySystem/\.vs/ObjednavkovySystem/v15/
 *.baml
 
 ObjednavkovySystem/obj/Debug/
+
+*.ide

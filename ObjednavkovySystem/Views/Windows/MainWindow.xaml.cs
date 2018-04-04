@@ -5,6 +5,7 @@ using System;
 using System.Timers;
 using System.Windows;
 using System.Windows.Threading;
+using System.Net.NetworkInformation;
 
 namespace ObjednavkovySystem.Views.Windows
 {
@@ -16,10 +17,20 @@ namespace ObjednavkovySystem.Views.Windows
         public MainWindow()
         {
             InitializeComponent();
-            Timer timer = new Timer(60000);
+            NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+            Timer timer = new Timer(300000);
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
             mainFrame.Navigate(new LoginPage());
+        }
+
+        private async void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
+        {
+            if (e.IsAvailable)
+            {
+                await SyncService.Instance().SyncAsync();
+                await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => RefreshFrame()));
+            }
         }
 
         private async void Timer_Elapsed(object sender, ElapsedEventArgs e)
