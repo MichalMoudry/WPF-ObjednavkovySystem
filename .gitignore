@@ -3,3 +3,5 @@
 ################################################################################
 
 /ObjednavkovySystem/bin/Debug
+/ObjednavkovySystem/.vs/ObjednavkovySystem/v15/Server/sqlite3/storage.ide-shm
+*.ide-wal
