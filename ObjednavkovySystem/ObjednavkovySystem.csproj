@@ -106,12 +106,11 @@
     <Compile Include="Helpers\RESTHelper.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\Database\EmployeeDatabase.cs" />
-    <Compile Include="Models\Database\OrderDatabase.cs" />
+    <Compile Include="Models\Database\TransactionsDatabase.cs" />
     <Compile Include="Models\Database\CustomerDatabase.cs" />
     <Compile Include="Models\Database\SyncDatabase.cs" />
-    <Compile Include="Models\Enums\EmployeeRoles.cs" />
     <Compile Include="Models\Extensions\Entity.cs" />
-    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Transactions.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Database\CarDatabase.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -119,7 +118,7 @@
     <Compile Include="Models\SyncContext.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\SyncService.cs" />
-    <Compile Include="ViewModels\OrderViewModel.cs" />
+    <Compile Include="ViewModels\TransactionsViewModel.cs" />
     <Compile Include="ViewModels\CarViewModel.cs" />
     <Compile Include="ViewModels\CustomerViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
@@ -127,11 +126,8 @@
     <Compile Include="Views\Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pages\ShellPage.xaml.cs">
-      <DependentUpon>ShellPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\HeaderedTextBlock.xaml.cs">
-      <DependentUpon>HeaderedTextBlock.xaml</DependentUpon>
+    <Compile Include="Views\Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\InAppNotification.xaml.cs">
       <DependentUpon>InAppNotification.xaml</DependentUpon>
@@ -183,11 +179,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\ShellPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\HeaderedTextBlock.xaml">
+    <Page Include="Views\Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

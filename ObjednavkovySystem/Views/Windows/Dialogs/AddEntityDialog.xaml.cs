@@ -1,9 +1,11 @@
-﻿using MahApps.Metro.Controls;
+﻿using CryptSharp;
+using MahApps.Metro.Controls;
 using ObjednavkovySystem.Models;
 using ObjednavkovySystem.ViewModels;
-using System.Windows;
-using System.Windows.Controls;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 
 namespace ObjednavkovySystem.Views.Windows.Dialogs
 {
@@ -12,10 +14,9 @@ namespace ObjednavkovySystem.Views.Windows.Dialogs
     /// </summary>
     public partial class AddEntityDialog : MetroWindow
     {
-        private Thickness _itemThickness = new Thickness(0, 5, 0, 0);
         private string entityType;
 
-        public AddEntityDialog(Order order)
+        public AddEntityDialog(Transactions order)
         {
             InitializeComponent();
             entityType = "Order";
@@ -26,56 +27,66 @@ namespace ObjednavkovySystem.Views.Windows.Dialogs
         {
             InitializeComponent();
             entityType = "Customer";
-            SetUIForCustomers();
+            CustomerBlock.Visibility = Visibility.Visible;
         }
 
         public AddEntityDialog(Car car)
         {
             InitializeComponent();
             entityType = "Car";
-            SetUIForCars();
+            CarBlock.Visibility = Visibility.Visible;
         }
 
         public AddEntityDialog(Employee employee)
         {
             InitializeComponent();
             entityType = "Employee";
-            SetUIForEmployees();
+            EmployeeBlock.Visibility = Visibility.Visible;
         }
 
         private async void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            switch (entityType)
+            if (entityType.Equals("Order"))
             {
-                case "Order":
-                    Order newOrder = new Order() { Added = DateTime.Now, IsDone = 0, Rented = DateTime.Now, LastUpdated = DateTime.Now, IsDeleted = 0 };
+                if (ValidateOrderBlockForm())
+                {
+                    Transactions newOrder = new Transactions() { Added = DateTime.Now, IsDone = 0, Rented = DateTime.Now, LastUpdated = DateTime.Now };
                     newOrder.UserID = (CustomerPicker.SelectedItem as Customer).ID;
                     newOrder.CarID = (CarPicker.SelectedItem as Car).ID;
                     newOrder.EmployeeID = (EmployeePicker.SelectedItem as Employee).ID;
-                    await OrderViewModel.Instance().InsertOrder(newOrder);
-                    break;
-
-                case "Customer":
-                    Customer customer = new Customer() { Added = DateTime.Now, LastUpdated = DateTime.Now, IsDeleted = 0 };
+                    Car tempCar = await CarViewModel.Instance().GetCarByID(newOrder.CarID);
+                    tempCar.IsLent = 1;
+                    await CarViewModel.Instance().UpdateCar(tempCar);
+                    await TransactionsViewModel.Instance().InsertOrder(newOrder);
+                }
+            }
+            else if (entityType.Equals("Customer"))
+            {
+                if (ValidateCustomerBlockForm())
+                {
+                    Customer customer = new Customer() { Added = DateTime.Now, LastUpdated = DateTime.Now };
                     customer.Name = CustomerName.Text;
                     await CustomerViewModel.Instance().InsertCustomer(customer);
-                    break;
-
-                case "Car":
-                    Car car = new Car() { Added = DateTime.Now, LastUpdated = DateTime.Now, IsDeleted = 0, IsLent = 0 };
+                }
+            }
+            else if (entityType.Equals("Car"))
+            {
+                if (ValidateCarBlockForm())
+                {
+                    Car car = new Car() { Added = DateTime.Now, LastUpdated = DateTime.Now, IsLent = 0 };
                     car.Name = CarName.Text;
                     await CarViewModel.Instance().InsertCar(car);
-                    break;
-
-                case "Employee":
-                    Employee employee = new Employee() { Added = DateTime.Now, LastUpdated = DateTime.Now, IsDeleted = 0, Role = "Zaměstnanec" };
+                }
+            }
+            else if (entityType.Equals("Employee"))
+            {
+                if (ValidateEmployeeBlockForm())
+                {
+                    Employee employee = new Employee() { Added = DateTime.Now, LastUpdated = DateTime.Now, Role = "Zaměstnanec" };
                     employee.Name = EmployeeName.Text;
-                    employee.Password = EmployeePass.Password;
+                    employee.Password = Crypter.Blowfish.Crypt(EmployeePass.Password);
                     await EmployeeViewModel.Instance().InsertEmployee(employee);
-                    break;
-
-                default:
-                    break;
+                }
             }
             Hide();
         }
@@ -83,24 +94,45 @@ namespace ObjednavkovySystem.Views.Windows.Dialogs
         private async void SetUIForOrders()
         {
             OrdersBlock.Visibility = Visibility.Visible;
+            List<Car> cars = await CarViewModel.Instance().GetCarsAsList();
             CustomerPicker.ItemsSource = await CustomerViewModel.Instance().GetCustomersAsList();
-            CarPicker.ItemsSource = await CarViewModel.Instance().GetCarsAsList();
+            CarPicker.ItemsSource = cars.Where(i => i.IsLent == 0);
             EmployeePicker.ItemsSource = await EmployeeViewModel.Instance().GetEmployeesAsList();
         }
 
-        private void SetUIForEmployees()
+        private bool ValidateCarBlockForm()
         {
-            EmployeeBlock.Visibility = Visibility.Visible;
+            if (string.IsNullOrEmpty(CarName.Text).Equals(false))
+            {
+                return true;
+            }
+            return false;
         }
 
-        private void SetUIForCars()
+        private bool ValidateCustomerBlockForm()
         {
-            CarBlock.Visibility = Visibility.Visible;
+            if (string.IsNullOrEmpty(CustomerName.Text).Equals(false))
+            {
+                return true;
+            }
+            return false;
         }
 
-        private void SetUIForCustomers()
+        private bool ValidateEmployeeBlockForm()
         {
-            CustomerBlock.Visibility = Visibility.Visible;
+            if (string.IsNullOrEmpty(EmployeeName.Text).Equals(false) && string.IsNullOrEmpty(EmployeePass.Password).Equals(false))
+            {
+            }
+            return false;
+        }
+
+        private bool ValidateOrderBlockForm()
+        {
+            if (CustomerPicker.SelectedItem != null && CarPicker.SelectedItem != null && EmployeePicker.SelectedItem != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

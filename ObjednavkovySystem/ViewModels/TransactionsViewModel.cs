@@ -1,39 +1,42 @@
 ﻿using ObjednavkovySystem.Models;
 using ObjednavkovySystem.Models.Database;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
-using System;
 
 namespace ObjednavkovySystem.ViewModels
 {
-    internal class OrderViewModel
+    internal class TransactionsViewModel
     {
-        private static OrderViewModel _instance;
-        private ObservableCollection<Order> _observableCollOrders;
-        private OrderDatabase orderDatabase;
+        private static TransactionsViewModel _instance;
+        private ObservableCollection<Transactions> _observableCollOrders;
+        private TransactionsDatabase orderDatabase;
 
-        protected OrderViewModel()
+        protected TransactionsViewModel()
         {
-            orderDatabase = new OrderDatabase("OrderDatabase.db3");
+            orderDatabase = new TransactionsDatabase("TransactionDatabase.db3");
         }
 
-        public static OrderViewModel Instance()
+        public static TransactionsViewModel Instance()
         {
             if (_instance == null)
             {
-                _instance = new OrderViewModel();
+                _instance = new TransactionsViewModel();
             }
             return _instance;
         }
 
-        public async Task DeleteOrder(Order order, bool toSyncContext = true)
+        public async Task DeleteOrder(Transactions order, bool toSyncContext = true, bool isHardDelete = false)
         {
-            order.IsDeleted = 1;
-            await orderDatabase.UpdateEntity(order);
+            if (isHardDelete)
+            {
+                await orderDatabase.DeleteEntity(order);
+            }
             if (toSyncContext)
             {
-                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = order.ID, EntityType = "Transaction", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });
+                await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = order.ID, EntityType = "Transaction", Operation = "Delete", Added = DateTime.Now, LastUpdated = DateTime.Now });
             }
             if (_observableCollOrders != null)
             {
@@ -41,23 +44,29 @@ namespace ObjednavkovySystem.ViewModels
             }
         }
 
-        public async Task<Order> GetOrderByID(int id)
+        public async Task<Transactions> GetLastEntity()
+        {
+            List<Transactions> list = await GetOrdersAsList();
+            return list.Last();
+        }
+
+        public async Task<Transactions> GetOrderByID(int id)
         {
             return await orderDatabase.GetEntityByID(id);
         }
 
-        public async Task<List<Order>> GetOrdersAsList()
+        public async Task<List<Transactions>> GetOrdersAsList()
         {
             return await orderDatabase.GetEntitesAsList();
         }
 
-        public async Task<ObservableCollection<Order>> GetOrdersAsObservable()
+        public async Task<ObservableCollection<Transactions>> GetOrdersAsObservable()
         {
-            _observableCollOrders = new ObservableCollection<Order>(await GetOrdersAsList());
+            _observableCollOrders = new ObservableCollection<Transactions>(await GetOrdersAsList());
             return _observableCollOrders;
         }
 
-        public async Task InsertOrder(Order order, bool toSyncContext = true)
+        public async Task InsertOrder(Transactions order, bool toSyncContext = true)
         {
             await orderDatabase.SaveEntity(order);
             if (toSyncContext)
@@ -70,7 +79,7 @@ namespace ObjednavkovySystem.ViewModels
             }
         }
 
-        public async Task UpdateOrder(Order order, bool toSyncContext = true)
+        public async Task UpdateOrder(Transactions order, bool toSyncContext = true)
         {
             await orderDatabase.UpdateEntity(order);
             if (toSyncContext)

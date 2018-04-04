@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\moudr\Source\Repos\WPF-Objednavkovy-system\ObjednavkovySystem\App.xaml
-7-700466162
+7-1601394019
 2-170831788
-37-1461426121
+3647806798
 821912129016
-Views\Pages\LoginPage.xaml;Views\Pages\ShellPage.xaml;Views\UserControls\HeaderedTextBlock.xaml;Views\UserControls\InAppNotification.xaml;Views\Windows\Dialogs\AddEntityDialog.xaml;Views\Windows\Dialogs\UpdateEntityDialog.xaml;Views\Windows\MainWindow.xaml;
+Views\Pages\LoginPage.xaml;Views\Pages\MainPage.xaml;Views\UserControls\InAppNotification.xaml;Views\Windows\Dialogs\AddEntityDialog.xaml;Views\Windows\Dialogs\DeleteDialog.xaml;Views\Windows\Dialogs\UpdateEntityDialog.xaml;Views\Windows\MainWindow.xaml;
 
 True
 

@@ -9,9 +9,9 @@ namespace ObjednavkovySystem.Views.Pages
     /// <summary>
     /// Interakční logika pro ShellPage.xaml
     /// </summary>
-    public partial class ShellPage : Page
+    public partial class MainPage : Page
     {
-        public ShellPage(string userRole)
+        public MainPage(string userRole)
         {
             InitializeComponent();
         }
@@ -22,7 +22,7 @@ namespace ObjednavkovySystem.Views.Pages
             switch (buttonName)
             {
                 case "AddOrderButton":
-                    DialogService.Instance().ShowAddEntityDialog((Order)OrdersList.SelectedItem);
+                    DialogService.Instance().ShowAddEntityDialog((Transactions)OrdersList.SelectedItem);
                     break;
 
                 case "AddCustomerButton":
@@ -48,7 +48,7 @@ namespace ObjednavkovySystem.Views.Pages
             switch (list)
             {
                 case "OrdersList":
-                    OrdersList.ItemsSource = await OrderViewModel.Instance().GetOrdersAsObservable();
+                    OrdersList.ItemsSource = await TransactionsViewModel.Instance().GetOrdersAsObservable();
                     break;
 
                 case "CustomersList":
@@ -60,7 +60,7 @@ namespace ObjednavkovySystem.Views.Pages
                     break;
 
                 case "EmployeesList":
-                    EmployeesList.ItemsSource = await EmployeeViewModel.Instance().GetEmployeesAsObservable(false);
+                    EmployeesList.ItemsSource = await EmployeeViewModel.Instance().GetEmployeesAsObservable();
                     break;
 
                 default:
@@ -76,7 +76,7 @@ namespace ObjednavkovySystem.Views.Pages
                 object selectedItem = senderList.SelectedItem;
                 if (senderList.Name.Equals("OrdersList"))
                 {
-                    DialogService.Instance().ShowUpdateDialog((Order)selectedItem);
+                    DialogService.Instance().ShowUpdateDialog((Transactions)selectedItem);
                 }
                 else if (senderList.Name.Equals("CustomersList"))
                 {

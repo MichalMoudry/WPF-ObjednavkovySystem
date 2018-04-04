@@ -50,6 +50,6 @@
             <userControls:InAppNotification x:Name="inAppNotification" Margin="0,15,0,0" Grid.Row="2" />
         </Grid>
 
-        <Border Style="{StaticResource DefaultBorderStyle}" />
+        <Border Style="{StaticResource DefaultBorderStyle}" BorderThickness="0.7" />
     </Grid>
 </Page>

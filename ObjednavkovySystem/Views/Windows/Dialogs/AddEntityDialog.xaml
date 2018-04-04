@@ -10,7 +10,7 @@
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         Title="Přidat novou položku"
-        Height="300" Width="300">
+        Height="250" Width="250">
 
     <Window.Resources>
         <DataTemplate x:Key="ComboBoxItemTemplate">
@@ -26,23 +26,23 @@
 
         <StackPanel x:Name="rootPanel">
             <StackPanel x:Name="OrdersBlock" Visibility="Collapsed">
-                <TextBlock Text="Zákazník" Style="{StaticResource TextContentStyle}" Margin="0,5,0,0" />
+                <TextBlock Text="Zákazník" Style="{StaticResource TextTitleStyle}" Margin="0,5,0,0" />
                 <ComboBox x:Name="CustomerPicker" ItemTemplate="{StaticResource ComboBoxItemTemplate}" />
 
-                <TextBlock Text="Auto" Style="{StaticResource TextContentStyle}" Margin="0,5,0,0" />
+                <TextBlock Text="Auto" Style="{StaticResource TextTitleStyle}" Margin="0,5,0,0" />
                 <ComboBox x:Name="CarPicker" ItemTemplate="{StaticResource ComboBoxItemTemplate}" />
 
-                <TextBlock Text="Zaměstnanec" Style="{StaticResource TextContentStyle}" Margin="0,5,0,0" />
+                <TextBlock Text="Zaměstnanec" Style="{StaticResource TextTitleStyle}" Margin="0,5,0,0" />
                 <ComboBox x:Name="EmployeePicker" ItemTemplate="{StaticResource ComboBoxItemTemplate}" />
             </StackPanel>
 
             <StackPanel x:Name="CarBlock" Visibility="Collapsed">
-                <TextBlock Text="Název auta" Style="{StaticResource TextContentStyle}" Margin="0,5,0,0" />
+                <TextBlock Text="Název auta" Style="{StaticResource TextTitleStyle}" Margin="0,5,0,0" />
                 <TextBox x:Name="CarName" controls:TextBoxHelper.ClearTextButton="True" />
             </StackPanel>
 
             <StackPanel x:Name="CustomerBlock" Visibility="Collapsed">
-                <TextBlock Text="Jméno zákazníka" Style="{StaticResource TextContentStyle}" Margin="0,5,0,0" />
+                <TextBlock Text="Jméno zákazníka" Style="{StaticResource TextTitleStyle}" Margin="0,5,0,0" />
                 <TextBox x:Name="CustomerName" controls:TextBoxHelper.ClearTextButton="True" />
             </StackPanel>
 
@@ -55,15 +55,7 @@
             </StackPanel>
         </StackPanel>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <Button Content="Přidat" x:Name="ConfirmButton" Margin="0,0,2,0" IsDefault="True" 
-                    Click="ConfirmButton_Click" />
-            <Button Content="Zavřít" Margin="2,0,0,0" IsCancel="True" Grid.Column="1" />
-        </Grid>
+        <Button Content="Přidat" x:Name="ConfirmButton" Margin="0,0,2,0" IsDefault="True" 
+                    Click="ConfirmButton_Click" Grid.Row="1" />
     </Grid>
 </controls:MetroWindow>

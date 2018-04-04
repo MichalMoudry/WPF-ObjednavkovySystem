@@ -29,7 +29,7 @@ namespace ObjednavkovySystem.Services
             _deleteDialog.ShowDialog();
         }
 
-        public void ShowUpdateDialog(Order order)
+        public void ShowUpdateDialog(Transactions order)
         {
             _updateEntityDialog = new UpdateEntityDialog(order);
             _updateEntityDialog.ShowDialog();
@@ -53,7 +53,7 @@ namespace ObjednavkovySystem.Services
             _updateEntityDialog.ShowDialog();
         }
 
-        public void ShowAddEntityDialog(Order order)
+        public void ShowAddEntityDialog(Transactions order)
         {
             _addEntityDialog = new AddEntityDialog(order);
             _addEntityDialog.ShowDialog();

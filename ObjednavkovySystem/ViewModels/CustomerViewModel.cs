@@ -3,6 +3,7 @@ using ObjednavkovySystem.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ObjednavkovySystem.ViewModels
@@ -27,10 +28,12 @@ namespace ObjednavkovySystem.ViewModels
             return _instance;
         }
 
-        public async Task DeleteCustomer(Customer customer, bool toSyncContext = true)
+        public async Task DeleteCustomer(Customer customer, bool toSyncContext = true, bool isHardDelete = false)
         {
-            customer.IsDeleted = 1;
-            await customerDatabase.UpdateEntity(customer);
+            if (isHardDelete)
+            {
+                await customerDatabase.DeleteEntity(customer);
+            }
             if (toSyncContext)
             {
                 await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = customer.ID, EntityType = "Customer", Operation = "Delete", Added = DateTime.Now, LastUpdated = DateTime.Now });
@@ -57,6 +60,12 @@ namespace ObjednavkovySystem.ViewModels
             return _obervableCollCustomers;
         }
 
+        public async Task<Customer> GetLastEntity()
+        {
+            List<Customer> list = await GetCustomersAsList();
+            return list.Last();
+        }
+
         public async Task InsertCustomer(Customer customer, bool toSyncContext = true)
         {
             await customerDatabase.SaveEntity(customer);
@@ -70,9 +79,11 @@ namespace ObjednavkovySystem.ViewModels
             }
         }
 
-        public async Task UpdateCutomer(Customer customer, bool toSyncContext = true)
+        public async Task UpdateCustomer(Customer customer, bool toSyncContext = true)
         {
             await customerDatabase.UpdateEntity(customer);
+            int index = _obervableCollCustomers.IndexOf(customer);
+            _obervableCollCustomers[index] = customer;
             if (toSyncContext)
             {
                 await SyncContextViewModel.Instance().InsertEntry(new SyncContext() { EntityID = customer.ID, EntityType = "Customer", Operation = "Update", Added = DateTime.Now, LastUpdated = DateTime.Now });
