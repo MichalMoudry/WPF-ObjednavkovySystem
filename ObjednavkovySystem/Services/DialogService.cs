@@ -53,26 +53,30 @@ namespace ObjednavkovySystem.Services
             _updateEntityDialog.ShowDialog();
         }
 
-        public void ShowAddEntityDialog(Transactions order)
+        public async void ShowAddEntityDialog(Transactions order)
         {
+            await SyncService.Instance().SyncAsync();
             _addEntityDialog = new AddEntityDialog(order);
             _addEntityDialog.ShowDialog();
         }
 
-        public void ShowAddEntityDialog(Car car)
+        public async void ShowAddEntityDialog(Car car)
         {
+            await SyncService.Instance().SyncAsync();
             _addEntityDialog = new AddEntityDialog(car);
             _addEntityDialog.ShowDialog();
         }
 
-        public void ShowAddEntityDialog(Customer customer)
+        public async void ShowAddEntityDialog(Customer customer)
         {
+            await SyncService.Instance().SyncAsync();
             _addEntityDialog = new AddEntityDialog(customer);
             _addEntityDialog.ShowDialog();
         }
 
-        public void ShowAddEntityDialog(Employee employee)
+        public async void ShowAddEntityDialog(Employee employee)
         {
+            await SyncService.Instance().SyncAsync();
             _addEntityDialog = new AddEntityDialog(employee);
             _addEntityDialog.ShowDialog();
         }

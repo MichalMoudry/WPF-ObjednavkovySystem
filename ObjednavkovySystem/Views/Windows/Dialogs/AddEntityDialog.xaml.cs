@@ -122,6 +122,7 @@ namespace ObjednavkovySystem.Views.Windows.Dialogs
         {
             if (string.IsNullOrEmpty(EmployeeName.Text).Equals(false) && string.IsNullOrEmpty(EmployeePass.Password).Equals(false))
             {
+                return true;
             }
             return false;
         }
