@@ -2,7 +2,6 @@
 using ObjednavkovySystem.Helpers;
 using ObjednavkovySystem.Models;
 using ObjednavkovySystem.ViewModels;
-using RestSharp;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
